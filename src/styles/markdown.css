@@ -1,0 +1,102 @@
+/* Additional vertical padding used by kbd tag. */
+.py-05 {
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+}
+
+.markdown-body {
+  @apply text-gray-900 leading-normal break-words;
+}
+
+.markdown-body > * + * {
+  @apply mt-0 mb-4;
+}
+
+.markdown-body li + li {
+  @apply mt-1;
+}
+
+.markdown-body li > p + p {
+  @apply mt-6;
+}
+
+.markdown-body strong {
+  @apply font-semibold;
+}
+
+.markdown-body a {
+  @apply text-blue-600 font-semibold;
+}
+
+.markdown-body strong a {
+  @apply font-bold;
+}
+
+.markdown-body h1 {
+  @apply leading-tight border-b text-4xl font-semibold mb-4 mt-6 pb-2;
+}
+
+.markdown-body h2 {
+  @apply leading-tight border-b text-2xl font-semibold mb-4 mt-6 pb-2;
+}
+
+.markdown-body h3 {
+  @apply leading-snug text-lg font-semibold mb-4 mt-6;
+}
+
+.markdown-body h4 {
+  @apply leading-none text-base font-semibold mb-4 mt-6;
+}
+
+.markdown-body h5 {
+  @apply leading-tight text-sm font-semibold mb-4 mt-6;
+}
+
+.markdown-body h6 {
+  @apply leading-tight text-sm font-semibold text-gray-600 mb-4 mt-6;
+}
+
+.markdown-body blockquote {
+  @apply text-base border-l-4 border-gray-300 pl-4 pr-4 text-gray-600;
+}
+
+.markdown-body code {
+  @apply font-mono inline bg-gray-200 rounded px-1 py-05;
+}
+
+.markdown-body pre {
+  @apply bg-gray-100 rounded p-4;
+}
+
+.markdown-body pre code {
+  @apply block bg-transparent p-0 overflow-visible rounded-none;
+}
+
+.markdown-body ul {
+  @apply text-base pl-8 list-disc;
+}
+
+.markdown-body ol {
+  @apply text-base pl-8 list-decimal;
+}
+
+.markdown-body kbd {
+  @apply text-xs inline-block rounded border px-1 py-05 align-middle font-normal font-mono shadow;
+}
+
+.markdown-body table {
+  @apply text-base border-gray-600;
+}
+
+.markdown-body th {
+  @apply border py-1 px-3;
+}
+
+.markdown-body td {
+  @apply border py-1 px-3;
+}
+
+/* Override pygments style background color. */
+.markdown-body .highlight pre {
+  @apply bg-gray-100 !important;
+}
