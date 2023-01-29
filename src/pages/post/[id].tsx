@@ -1,6 +1,10 @@
 import Layout from "@/components/layout"
 import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
+import remarkGfm from "remark-gfm"
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
+import { okaidia as syntaxStyle } from "react-syntax-highlighter/dist/cjs/styles/prism"
+import Mermaid from "@/components/mermaid"
 
 const title = `Elastic stack을 통한 주문 데이터 분석 및 로그 분석`
 
@@ -87,10 +91,12 @@ ReactDOM.render(
 )
 \`\`\`
 
-TODO : highlightjs
+\`\`\`mermaid
+graph LR
+    Start --> Stop
+\`\`\`
 
-TODO : mermaidjs
-
+![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
 
 `
 
@@ -104,12 +110,40 @@ const Post = () => (
         ) : (
           <></>
         )}
-        <div className="self-end">2022-11-11</div>
+        <div className="self-end">2022년 11월 11일</div>
         <div className="block w-full font-thin text-2xl leading-10 text-gray-800 mt-20">
           <ReactMarkdown
             children={content}
+            remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw]}
             className="markdown-body"
+            components={{
+              code({ node, inline, className, children, ...props }) {
+                const match = /language-(\w+)/.exec(className || "")
+                if (inline || !match) {
+                  return (
+                    <code className={className} {...props}>
+                      {children}
+                    </code>
+                  )
+                }
+                const lang = match[1]
+                if (lang === "mermaid") {
+                  return <Mermaid chart={children}></Mermaid>
+                }
+                return (
+                  <SyntaxHighlighter
+                    children={String(children).replace(/\n$/, "")}
+                    className="code-style"
+                    showInlineLineNumbers={true}
+                    language={lang}
+                    PreTag="div"
+                    {...props}
+                    style={syntaxStyle}
+                  />
+                )
+              },
+            }}
           />
         </div>
       </div>
