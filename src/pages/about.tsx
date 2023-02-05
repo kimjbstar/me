@@ -9,7 +9,12 @@ const About = () => (
         <a className="p-2" href="mailto:kimjbstar@gmail.com">
           [mail]
         </a>
-        <a className="p-2" href="https://github.com/kimjbstar" target="_blank">
+        <a
+          className="p-2"
+          href="https://github.com/kimjbstar"
+          target="_blank"
+          rel="noreferrer"
+        >
           [github]
         </a>
       </div>

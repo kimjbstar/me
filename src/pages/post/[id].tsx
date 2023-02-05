@@ -5,6 +5,8 @@ import remarkGfm from "remark-gfm"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { okaidia as syntaxStyle } from "react-syntax-highlighter/dist/cjs/styles/prism"
 import Mermaid from "@/components/mermaid"
+import { GetStaticPropsContext, InferGetStaticPropsType } from "next"
+import { Post } from "."
 
 const title = `Elastic stack을 통한 주문 데이터 분석 및 로그 분석`
 
@@ -100,55 +102,97 @@ graph LR
 
 `
 
-const Post = () => (
+// Generates `/posts/1` and `/posts/2`
+export async function getStaticPaths() {
+  return {
+    paths: [{ params: { id: "1" } }, { params: { id: "2" } }],
+    fallback: false, // can also be true or 'blocking'
+  }
+}
+
+// `getStaticPaths` requires using `getStaticProps`
+export const getStaticProps = async (context: GetStaticPropsContext) => {
+  const id = context.params?.id
+  // const res = await fetch('http://.../posts/id')
+  // const post = await res.json()
+  const post: Post | undefined = [
+    {
+      id: 1,
+      title: "aa",
+      content: "bb",
+      createdAt: "2022-11-22",
+    },
+    {
+      id: 2,
+      title: "cc",
+      content: "dd",
+      createdAt: "2022-11-23",
+    },
+  ].find((p) => p.id == Number(id))
+  return {
+    props: {
+      post,
+    },
+  }
+}
+
+const PostDetailPage = ({
+  post,
+}: InferGetStaticPropsType<typeof getStaticProps>) => (
   <Layout>
     <section className="flex flex-col items-center mt-20">
       <div className="max-w-7xl flex flex-col">
-        <div className="text-8xl mb-10 font-bold text-gray-800">{title}</div>
-        {subtitle ? (
-          <div className="text-4xl mb-10 text-gray-700">{subtitle}</div>
+        <div className="text-8xl mb-10 font-bold text-gray-800">
+          {post?.title}
+        </div>
+        {post ? (
+          <div className="text-4xl mb-10 text-gray-700">{post.title}</div>
         ) : (
           <></>
         )}
-        <div className="self-end">2022년 11월 11일</div>
-        <div className="block w-full font-thin text-2xl leading-10 text-gray-800 mt-20">
-          <ReactMarkdown
-            children={content}
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeRaw]}
-            className="markdown-body"
-            components={{
-              code({ node, inline, className, children, ...props }) {
-                const match = /language-(\w+)/.exec(className || "")
-                if (inline || !match) {
+        <div className="self-end">{post?.createdAt}</div>
+        {post?.content ? (
+          <div className="block w-full font-thin text-2xl leading-10 text-gray-800 mt-20">
+            <ReactMarkdown
+              children={post?.content}
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw]}
+              className="markdown-body"
+              components={{
+                code({ node, inline, className, children, ...props }) {
+                  const match = /language-(\w+)/.exec(className || "")
+                  if (inline || !match) {
+                    return (
+                      <code className={className} {...props}>
+                        {children}
+                      </code>
+                    )
+                  }
+                  const lang = match[1]
+                  if (lang === "mermaid") {
+                    return <Mermaid chart={children}></Mermaid>
+                  }
                   return (
-                    <code className={className} {...props}>
-                      {children}
-                    </code>
+                    <SyntaxHighlighter
+                      children={String(children).replace(/\n$/, "")}
+                      className="code-style"
+                      showInlineLineNumbers={true}
+                      language={lang}
+                      PreTag="div"
+                      {...props}
+                      style={syntaxStyle}
+                    />
                   )
-                }
-                const lang = match[1]
-                if (lang === "mermaid") {
-                  return <Mermaid chart={children}></Mermaid>
-                }
-                return (
-                  <SyntaxHighlighter
-                    children={String(children).replace(/\n$/, "")}
-                    className="code-style"
-                    showInlineLineNumbers={true}
-                    language={lang}
-                    PreTag="div"
-                    {...props}
-                    style={syntaxStyle}
-                  />
-                )
-              },
-            }}
-          />
-        </div>
+                },
+              }}
+            />
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </section>
   </Layout>
 )
 
-export default Post
+export default PostDetailPage

@@ -1,3 +1,4 @@
+import Link from "next/link"
 import React, { FC } from "react"
 
 interface Props {}
@@ -7,13 +8,13 @@ export default function Header() {
     <nav className="text-s flex justify-center border-b-2 border-gray-100">
       <div className="flex justify-around max-w-[1200px] w-full">
         <div className="p-6">
-          <a href="/about">About</a>
+          <Link href="/about">About</Link>
         </div>
         <div className="p-6">
-          <a href="/post">Post</a>
+          <Link href="/post">Post</Link>
         </div>
         <div className="p-6">
-          <a href="/other">Other</a>
+          <Link href="/other">Other</Link>
         </div>
       </div>
     </nav>
