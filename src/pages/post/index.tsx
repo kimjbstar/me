@@ -1,43 +1,21 @@
 import Layout from "@/components/layout"
+import supabase from "@/lib/supabaseClient"
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next"
 import Link from "next/link"
-
-export interface Post {
-  id: number
-  title: string
-  subtitle?: string
-  content: string
-  createdAt: string
-}
+import { Post } from "./[id]"
 
 export const getStaticProps = async (context: GetStaticPropsContext) => {
-  // TODO : to api directory
-  // const res = await fetch('http://.../posts')
-  // const posts = await res.json()
-  const posts: Post[] = [
-    {
-      id: 1,
-      title: "aa",
-      subtitle: "afafa",
-      content: "bb",
-      createdAt: "2022-11-22",
-    },
-    {
-      id: 2,
-      title: "cc",
-      content: "dd",
-      createdAt: "2022-11-23",
-    },
-  ]
+  const { data } = await supabase.from("blogs").select("*")
+  const posts = data as Post[]
   return {
     props: {
-      posts,
-    },
+      posts
+    }
   }
 }
 
 const PostIndexPage = function ({
-  posts,
+  posts
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <Layout>
@@ -51,7 +29,7 @@ const PostIndexPage = function ({
               className="border flex justify-between p-4"
             >
               <div>{post.title}</div>
-              <div>{post.createdAt}</div>
+              <div>{post.created_at}</div>
             </Link>
           </li>
         ))}

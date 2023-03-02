@@ -1,0 +1,14 @@
+{
+  "cons": {
+    "scope": "javascript, typescript",
+    "prefix": "cons",
+    "body": ["console.log('${1}', ${1})"],
+    "description": "console.log"
+  },
+  "iife": {
+    "scope": "javascript, typescript",
+    "prefix": "iife",
+    "body": [";(async () => {\n\t${0}\n})()"],
+    "description": "iife"
+  }
+}
