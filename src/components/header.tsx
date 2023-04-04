@@ -11,7 +11,7 @@ export default function Header() {
           <Link href="/about">About</Link>
         </div>
         <div className="p-6">
-          <Link href="/post">Post</Link>
+          <Link href="/blog">Blog</Link>
         </div>
         <div className="p-6">
           <Link href="/other">Other</Link>
