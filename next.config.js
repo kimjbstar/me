@@ -3,9 +3,7 @@
 const nextConfig = {
   reactStrictMode: true,
   assetPrefix:
-    process.env.NODE_ENV === "production"
-      ? "https://kimjbstar.github.io/blog"
-      : ""
+    process.env.NODE_ENV !== "local" ? "https://kimjbstar.github.io/blog" : ""
 }
 
 module.exports = nextConfig

@@ -1,2 +1,2 @@
 export const prefix =
-  process.env.NODE_ENV === "production" ? "http://kimjbstar.github.io/blog" : ""
+  process.env.NODE_ENV !== "local" ? "http://kimjbstar.github.io/blog" : ""
