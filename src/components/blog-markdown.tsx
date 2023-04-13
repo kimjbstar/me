@@ -14,7 +14,6 @@ export default function BlogMarkDown(props: React.PropsWithChildren<Props>) {
 
   return (
     <ReactMarkdown
-      children={props.content}
       remarkPlugins={[remarkGfm]}
       rehypePlugins={[rehypeRaw]}
       className="markdown-body"
@@ -35,17 +34,20 @@ export default function BlogMarkDown(props: React.PropsWithChildren<Props>) {
           }
           return (
             <SyntaxHighlighter
-              children={String(children).replace(/\n$/, "")}
               className="code-style"
               showInlineLineNumbers={true}
               language={lang}
               PreTag="div"
               {...props}
               style={syntaxStyle}
-            />
+            >
+              {String(children).replace(/\n$/, "")}
+            </SyntaxHighlighter>
           )
         }
       }}
-    />
+    >
+      {props.content}
+    </ReactMarkdown>
   )
 }
