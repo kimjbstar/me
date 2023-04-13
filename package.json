@@ -9,7 +9,7 @@
     "export": "next export",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "next build && next export && touch out/.nojekyll && git add -f out/ && git commit -m 'deploy to gh-pages' && gh-pages -d out"
+    "deploy": "next build && next export && touch out/.nojekyll && git add -f out/ && git commit -m 'deploy to gh-pages' && gh-pages -d out -t true"
   },
   "dependencies": {
     "@next/font": "^13.1.6",
