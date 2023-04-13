@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="en"><title>Next.JS + TailwindCSS</title><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="next-head-count" content="2"/><link rel="icon" href="/favicon.ico"/><link rel="preconnect" href="/" crossorigin="anonymous"/><link rel="preload" href="/_next/static/css/072a77f354f9a446.css" as="style"/><link rel="stylesheet" href="/_next/static/css/072a77f354f9a446.css" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/_next/static/chunks/polyfills-c67a75d1b6f99dc8.js"></script><script src="/_next/static/chunks/webpack-38cee4c0e358b1a3.js" defer=""></script><script src="/_next/static/chunks/framework-73b8966a3c579ab0.js" defer=""></script><script src="/_next/static/chunks/main-38ead3c0359836e3.js" defer=""></script><script src="/_next/static/chunks/pages/_app-b0de4cbd2d67561b.js" defer=""></script><script src="/_next/static/chunks/0f4ba5df-f4fef96fbe8038cd.js" defer=""></script><script src="/_next/static/chunks/664-71f85c7425211588.js" defer=""></script><script src="/_next/static/chunks/556-974ba8e86a8c1b84.js" defer=""></script><script src="/_next/static/chunks/pages/blog/%5Bid%5D-93c70fb44ca1f648.js" defer=""></script><script src="/_next/static/M8RoAvInA7tPAIHmVzECm/_buildManifest.js" defer=""></script><script src="/_next/static/M8RoAvInA7tPAIHmVzECm/_ssgManifest.js" defer=""></script></head><body><div id="__next"><main class="__className_f62174"><nav class="text-s flex justify-center border-b-2 border-gray-100"><div class="flex justify-around max-w-[1200px] w-full"><div class="p-6"><a href="/about">About</a></div><div class="p-6"><a href="/blog">Blog</a></div><div class="p-6"><a href="/other">Other</a></div></div></nav><section class="flex flex-col items-center mt-20"><div class="max-w-7xl flex flex-col"><div class="text-6xl mb-10 font-bold text-gray-800">실시간 스포츠 중계 플랫폼 개발을 통한 트래픽 급증 경험</div><div class="text-4xl mb-10 text-gray-700"></div><div class="self-end">2017-08-30T14:00:00+00:00</div><div class="markdown-body"><h1><strong>2017년 8월 27일 일요일 08시 - 메이웨더 vs 맥그리거</strong></h1>
+<h3>당일 신규 유저 유입 13,844</h3>
+<p><img src="https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic01.jpg" alt=""/></p>
+<p><img src="https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic02.png" alt=""/></p>
+<p><img src="https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic03.png" alt=""/></p>
+<h1>2017년 12월 9일 토요일 - 동아시안컵 한중전</h1>
+<h3>당일 신규 유저 유입 24,070</h3>
+<p><img src="https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic04.jpeg" alt=""/></p>
+<p><img src="https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic05.png" alt=""/></p>
+<p><img src="https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic06.png" alt=""/></p>
+<h1>2017년 12월 23일 토요일 21시 - 엘 클라시코</h1>
+<h3>당일 신규 유저 유입 100,852, DAU는 그 이상 추정</h3>
+<p><img src="https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic07.jpg" alt=""/></p>
+<p><img src="https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic08.png" alt=""/></p>
+<p><img src="https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic09.png" alt=""/></p>
+<p><img src="https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic10.png" alt=""/></p>
+<p>사건 후 ab(apache benchmark)를 통해 실시한 부하 테스트 중 한 장면</p>
+<h3>상황 정리 및 대처 시도 - 12월 9일 한중전</h3>
+<ul>
+<li>당시 상황
+<ul>
+<li>신규 유입 유저 2만명대. DAU는 그 이상으로 추정. 당시 셋업된 서버 현황은 cafe24 퀵서버 호스팅 기반 웹서버 2대, CDN서버 2대, DB서버 2대, 신규 유저 가입이 많아 write DB에 먼저 무리가 갈 것을 법했지만 그렇지는 않았습니다. 추후 원인은 엉뚱한 다른 곳에서 발견됩니다.</li>
+</ul>
+</li>
+<li>문제 발생
+<ul>
+<li>시작 직후에 생각보다 빠르게 즉시 서버가 다운. 문제는 web1, DB, 이미지 서버는 거의 idle한 상태인데 web2 서버와 로드밸런서만 다운되는 현상을 발견.</li>
+</ul>
+</li>
+<li>사후 원인 점검
+<ul>
+<li>로드밸런서가 정상적으로 동작하지 않아 web2에만 트래픽이 몰리는 것이 원인이었습니다. 로드밸런서가 http request를 보내 response code가 200으로 돌아와야 정상으로 간주하는데 당시 web1 서버로 root 주소에 request를 보내면 404를 리턴하여 비정상 상태로 간주하고 web2로만 트래픽을 보냈던 것이었습니다.</li>
+<li>당시에는 로드밸런서가 http로도 health를 체크한다는 생각을 못했으나 추후 나중에 공부해보니 L7 스위치는 http로도 health-check를 합니다.</li>
+<li>즉 사전에 health-check를 어떻게 하는지에 대한 커뮤니케이션 혹은 리서치 후 동작여부를 체크했어야 하는데 ( 아니어도 보통 http로 많이 합니다 ) 그렇지 못함이 원인인 것 같습니다.</li>
+</ul>
+</li>
+<li>추후 대처
+<ul>
+<li>각 서버를 3대씩 늘려 총 15대 서버 구축, 호스팅에서 제공하는 모니터링 정보 대신 직접 모니터링 시스템을 구축하였습니다.</li>
+<li>리팩토링, redis 캐시 도입, css/js merge, svg spriting, gzip 도입, fpm/MySQL/nginx 옵션값 조정 후 apache benchmark를 통한 부하 테스트를 추가로 실시했습니다.</li>
+</ul>
+</li>
+<li>회고
+<ul>
+<li>바닥부터 만든 서비스로 이정도의 트래픽을 실시간으로 관찰해볼 수 있는 값진 경험이었습니다. 소규모 서비스 및 토이 프로젝트만으로는 겪기 어려운 상황이기 때문입니다.</li>
+<li>사내에서는 서버 호스팅 업체로 항상 cafe24를 사용했습니다. 당시 개발팀장이 초기 유저가 없을 때 굳이 러닝커브를 감수하고 AWS를 도입하는 걸 자원 낭비라고 주장했기 때문입니다. 그래서 가성비가 좋은 8만원짜리 퀵서버호스팅을 도입해왔습니다. 물론 소규모 서비스에는 맞는 말이기도 합니다.</li>
+<li>실제로 제가 이전 직장에서 프로토타입용 서비스를 만들 때를 생각하면 기본적인 기능만 이용해도 약 10만원 조금 넘게 나왔는데 퍼포먼스는 더 떨어졌기 때문에 그게 맞다고 생각해왔습니다.</li>
+<li>그러나 스포티비나우 같은, 서비스가 커지고 scale-out이 필요한 상황에서 cafe24 엔지니어와 직접 조율하는 등 불편함과 커뮤니케이션 오류 리스크가 있습니다. 그래서 저는 이런 리스트를 감당하는 것 보다는 AWS를 도입 및 공부를 하여 대응 및 관리를 하는 것이 지출이 더 커 보여도 리스크를 감안하면 더 낫다고 생각했습니다.</li>
+<li>하지만 결국 AWS 도입은 추후를 기약하는 것으로 결론지었습니다. 이유는 아래와 같습니다.
+<ol>
+<li>어차피 반복 작업을 하다보면 cafe24 엔지니어들과 조율 과정은 루틴화 될 것</li>
+<li>AWS를 적용하 게 되면 분명 추가적인 AWS 공부가 필요하고</li>
+<li>개발팀장 및 개발팀에서 구축한 배포 쪽 프로세스 및 코드에도 수정 소요가 들어가는데 굳이 그렇게 할 메리트가 없음</li>
+<li>비용 증가</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul></div></div></section></main></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"blog":{"id":"8ee1652e-1f99-4376-aaef-f3d78e8b3ddc","title":"실시간 스포츠 중계 플랫폼 개발을 통한 트래픽 급증 경험","content":"# **2017년 8월 27일 일요일 08시 - 메이웨더 vs 맥그리거**\n\n### 당일 신규 유저 유입 13,844\n\n![](https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic01.jpg)\n\n![](https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic02.png)\n\n![](https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic03.png)\n\n# 2017년 12월 9일 토요일 - 동아시안컵 한중전\n\n### 당일 신규 유저 유입 24,070\n\n![](https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic04.jpeg)\n\n![](https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic05.png)\n\n![](https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic06.png)\n\n# 2017년 12월 23일 토요일 21시 - 엘 클라시코\n\n### 당일 신규 유저 유입 100,852, DAU는 그 이상 추정\n\n![](https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic07.jpg)\n\n![](https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic08.png)\n\n![](https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic09.png)\n\n![](https://pihxnuyialxsmkzxlpjj.supabase.co/storage/v1/object/public/bucket01/traffic10.png)\n\n사건 후 ab(apache benchmark)를 통해 실시한 부하 테스트 중 한 장면\n\n### 상황 정리 및 대처 시도 - 12월 9일 한중전\n\n- 당시 상황\n    - 신규 유입 유저 2만명대. DAU는 그 이상으로 추정. 당시 셋업된 서버 현황은 cafe24 퀵서버 호스팅 기반 웹서버 2대, CDN서버 2대, DB서버 2대, 신규 유저 가입이 많아 write DB에 먼저 무리가 갈 것을 법했지만 그렇지는 않았습니다. 추후 원인은 엉뚱한 다른 곳에서 발견됩니다.\n- 문제 발생\n    - 시작 직후에 생각보다 빠르게 즉시 서버가 다운. 문제는 web1, DB, 이미지 서버는 거의 idle한 상태인데 web2 서버와 로드밸런서만 다운되는 현상을 발견.\n- 사후 원인 점검\n    - 로드밸런서가 정상적으로 동작하지 않아 web2에만 트래픽이 몰리는 것이 원인이었습니다. 로드밸런서가 http request를 보내 response code가 200으로 돌아와야 정상으로 간주하는데 당시 web1 서버로 root 주소에 request를 보내면 404를 리턴하여 비정상 상태로 간주하고 web2로만 트래픽을 보냈던 것이었습니다.\n    - 당시에는 로드밸런서가 http로도 health를 체크한다는 생각을 못했으나 추후 나중에 공부해보니 L7 스위치는 http로도 health-check를 합니다.\n    - 즉 사전에 health-check를 어떻게 하는지에 대한 커뮤니케이션 혹은 리서치 후 동작여부를 체크했어야 하는데 ( 아니어도 보통 http로 많이 합니다 ) 그렇지 못함이 원인인 것 같습니다.\n- 추후 대처\n    - 각 서버를 3대씩 늘려 총 15대 서버 구축, 호스팅에서 제공하는 모니터링 정보 대신 직접 모니터링 시스템을 구축하였습니다.\n    - 리팩토링, redis 캐시 도입, css/js merge, svg spriting, gzip 도입, fpm/MySQL/nginx 옵션값 조정 후 apache benchmark를 통한 부하 테스트를 추가로 실시했습니다.\n- 회고\n    - 바닥부터 만든 서비스로 이정도의 트래픽을 실시간으로 관찰해볼 수 있는 값진 경험이었습니다. 소규모 서비스 및 토이 프로젝트만으로는 겪기 어려운 상황이기 때문입니다.\n    - 사내에서는 서버 호스팅 업체로 항상 cafe24를 사용했습니다. 당시 개발팀장이 초기 유저가 없을 때 굳이 러닝커브를 감수하고 AWS를 도입하는 걸 자원 낭비라고 주장했기 때문입니다. 그래서 가성비가 좋은 8만원짜리 퀵서버호스팅을 도입해왔습니다. 물론 소규모 서비스에는 맞는 말이기도 합니다.\n    - 실제로 제가 이전 직장에서 프로토타입용 서비스를 만들 때를 생각하면 기본적인 기능만 이용해도 약 10만원 조금 넘게 나왔는데 퍼포먼스는 더 떨어졌기 때문에 그게 맞다고 생각해왔습니다.\n    - 그러나 스포티비나우 같은, 서비스가 커지고 scale-out이 필요한 상황에서 cafe24 엔지니어와 직접 조율하는 등 불편함과 커뮤니케이션 오류 리스크가 있습니다. 그래서 저는 이런 리스트를 감당하는 것 보다는 AWS를 도입 및 공부를 하여 대응 및 관리를 하는 것이 지출이 더 커 보여도 리스크를 감안하면 더 낫다고 생각했습니다.\n    - 하지만 결국 AWS 도입은 추후를 기약하는 것으로 결론지었습니다. 이유는 아래와 같습니다.\n        1. 어차피 반복 작업을 하다보면 cafe24 엔지니어들과 조율 과정은 루틴화 될 것\n        2. AWS를 적용하 게 되면 분명 추가적인 AWS 공부가 필요하고\n        3. 개발팀장 및 개발팀에서 구축한 배포 쪽 프로세스 및 코드에도 수정 소요가 들어가는데 굳이 그렇게 할 메리트가 없음\n        4. 비용 증가","created_at":"2017-08-30T14:00:00+00:00","subtitle":null,"is_show":false}},"__N_SSG":true},"page":"/blog/[id]","query":{"id":"8ee1652e-1f99-4376-aaef-f3d78e8b3ddc"},"buildId":"M8RoAvInA7tPAIHmVzECm","isFallback":false,"gsp":true,"scriptLoader":[]}</script></body></html>
