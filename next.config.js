@@ -5,8 +5,10 @@ const repository = "kimjbstar-blog"
 
 const nextConfig = {
   reactStrictMode: true,
-  basePath: isDebug ? "" : `/${repository}`,
-  trailingSlash: true
+  assetPrefix:
+    process.env.NODE_ENV === "production"
+      ? "https://kimjbstar.github.io/blog"
+      : ""
 }
 
 module.exports = nextConfig
