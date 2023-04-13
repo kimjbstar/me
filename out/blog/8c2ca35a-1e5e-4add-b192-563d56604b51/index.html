@@ -1,0 +1,325 @@
+<!DOCTYPE html><html lang="en"><title>Next.JS + TailwindCSS</title><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="next-head-count" content="2"/><link rel="icon" href="/favicon.ico"/><link rel="preconnect" href="/" crossorigin="anonymous"/><link rel="preload" href="/_next/static/css/072a77f354f9a446.css" as="style"/><link rel="stylesheet" href="/_next/static/css/072a77f354f9a446.css" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/_next/static/chunks/polyfills-c67a75d1b6f99dc8.js"></script><script src="/_next/static/chunks/webpack-38cee4c0e358b1a3.js" defer=""></script><script src="/_next/static/chunks/framework-73b8966a3c579ab0.js" defer=""></script><script src="/_next/static/chunks/main-39fda8f9d67a8435.js" defer=""></script><script src="/_next/static/chunks/pages/_app-ef5e744e6355688b.js" defer=""></script><script src="/_next/static/chunks/0f4ba5df-f4fef96fbe8038cd.js" defer=""></script><script src="/_next/static/chunks/664-71f85c7425211588.js" defer=""></script><script src="/_next/static/chunks/556-974ba8e86a8c1b84.js" defer=""></script><script src="/_next/static/chunks/pages/blog/%5Bid%5D-93c70fb44ca1f648.js" defer=""></script><script src="/_next/static/qCVLyrVZjqXoqsT0OPv9e/_buildManifest.js" defer=""></script><script src="/_next/static/qCVLyrVZjqXoqsT0OPv9e/_ssgManifest.js" defer=""></script></head><body><div id="__next"><main class="__className_f62174"><nav class="text-s flex justify-center border-b-2 border-gray-100"><div class="flex justify-around max-w-[1200px] w-full"><div class="p-6"><a href="/about/">About</a></div><div class="p-6"><a href="/blog/">Blog</a></div><div class="p-6"><a href="/other/">Other</a></div></div></nav><section class="flex flex-col items-center mt-20"><div class="max-w-7xl flex flex-col"><div class="text-6xl mb-10 font-bold text-gray-800">&quot;리팩토링: 루비 에디션&quot; 후기</div><div class="text-4xl mb-10 text-gray-700"></div><div class="self-end">2018-01-17T22:55:04+00:00</div><div class="markdown-body"><h2>서론</h2>
+<p>이 책을 접할 때 마침 개인적으로 ruby(정확히는 rails를 위한 ruby) 공부를 하고 있었고,</p>
+<p>또한 리팩토링 책도 유명하긴 하지만 java 기반으로 알고 있었는데, 루비 기반으로 된 책이면 둘 다 접할 기회라 생각하여 읽게 되었다.</p>
+<h2>구성</h2>
+<p>크게 리팩토링이 무엇인지, 왜 쓰는지, 언제 써야 하는지 등 개요가 나오고 단위 테스트 잠깐 소개, 그 이후는 열거 방식으로 나열되어 있다.</p>
+<p>현재 열거 부분 첫 챕터인 메서드 정리 부분까지 본 상태인데, 아직 초반이라 그런지 그 전부터 체득된 패턴들이 많이 나와서 익숙했다.</p>
+<p>뒷 부분에는 클래스 추출 등 데이터 설계까지 고려하는 부분이 나오는 것 같은데 읽어봐야 알 것 같다.</p>
+<p>메서드 챕터 부분은 메서드를 리팩토링하면서 접할 수 있는 모듈화, 메서드 내 파라미터 등을 어떻게 처리할지 등에 대한 사례들 있는데 사실 이런 과정들은 경험에 의해 체득됬었지, 이렇게 패턴별로 나열해서 생각해본적은 없었던 것 같다.</p>
+<p>죽 보면서 이렇게 이 때는 이런게 필요하겠다 하는 식으로 정리해서 내 것으로 가지고 있으면 언젠간 도움이 될 거 같다.</p>
+<h2>ruby</h2>
+<p>oop, 동적 타입, 스크립트 언어 ( +함수형 프로그래밍 )</p>
+<p>사실 ruby는 큰 기대를 안하고 rails 공부를 위해 접했는데, 신선한 면이 많은 언어였다.</p>
+<p>특히 컬렉션을 다루는 enumerable 메서드들이 편리한게 많다.</p>
+<pre><div class="code-style" style="color:#f8f8f2;background:#272822;text-shadow:0 1px rgba(0, 0, 0, 0.3);font-family:Consolas, Monaco, &#x27;Andale Mono&#x27;, &#x27;Ubuntu Mono&#x27;, monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;padding:1em;margin:.5em 0;overflow:auto;border-radius:0.3em"><code class="language-ruby" style="color:#f8f8f2;background:none;text-shadow:0 1px rgba(0, 0, 0, 0.3);font-family:Consolas, Monaco, &#x27;Andale Mono&#x27;, &#x27;Ubuntu Mono&#x27;, monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none"><span>arr </span><span class="token" style="color:#f8f8f2">=</span><span> </span><span class="token" style="color:#f8f8f2">(</span><span class="token" style="color:#ae81ff">1.</span><span class="token" style="color:#f8f8f2">.</span><span class="token" style="color:#ae81ff">.4</span><span class="token" style="color:#f8f8f2">)</span><span class="token" style="color:#f8f8f2">.</span><span>select </span><span class="token" style="color:#f8f8f2">{</span><span> </span><span class="token" style="color:#f8f8f2">|</span><span>x</span><span class="token" style="color:#f8f8f2">|</span><span> x </span><span class="token" style="color:#f8f8f2">%</span><span> </span><span class="token" style="color:#ae81ff">2</span><span> </span><span class="token" style="color:#f8f8f2">==</span><span> </span><span class="token" style="color:#ae81ff">0</span><span> </span><span class="token" style="color:#f8f8f2">}</span><span>
+</span><span></span><span class="token" style="color:#8292a2"># =&gt; [2]</span></code></div></pre>
+<p>최근 애용하고 있는 <a href="http://www.lodash.com">lodash</a>에도 이러한 컬렉션 메서드들이 꽤 있다.</p>
+<p>그 외 매개변수가 아닌 코드 블럭 자체를 파라미터로 넘기는 등 접할 땐 당황스럽지만 편리한 기능들이 있었다.</p>
+<h2>리팩토링</h2>
+<p>Chap 7: 객체 간의 기능 이동</p>
+<ul>
+<li>Move Method
+<ul>
+<li>메서드가 자신이 속한 클래스보다 다른 클래스의 기능을 더 많이 이용할 경우 그 클래스로 메서드 이동</li>
+</ul>
+</li>
+<li>Move FIeld
+<ul>
+<li>필드가 자신이 속한 클래스보다 다른 클래스에서 더 많이 사용될 경우 그 클래스로 필드 이동</li>
+</ul>
+</li>
+<li>Extract Class &lt;-&gt; Inline Class
+<ul>
+<li>클래스 분리/합침
+<ul>
+<li>Hide Delegate ( 대리 객체 은폐 ) &lt;-&gt; Remove Middle Man ( 과잉 중개자 제거 )
+<ul>
+<li>객체 내 메서드에서 내부 객체 메서드를 콜하는 상황일때 Forwardable 모듈을 이용 위임하라는 내용인데 루비 한정으로 보여짐</li>
+<li>굳이 다른 언어에서 구현하려면 랩핑하는 메서드를 추가하는 정도</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Chap 8: 데이터 체계화</p>
+<ul>
+<li>Self Encapsulate Field
+<ul>
+<li>indirect/direct vailable access</li>
+<li>필드를 직접 접근하지 말고 getter/setter 역할을 하는 메서드를 사용하라는 내용</li>
+<li>oop에서 당연히 필요한 요소로 생각했으나 반대의 입장도 있는 듯</li>
+</ul>
+</li>
+<li>Replace Data Value with Object
+<ul>
+<li>한 필드가 단순 데이터에서 복잡한 데이터를 표현해야 할 경우 그 필드를 객체로 전환</li>
+</ul>
+</li>
+<li>Change Value to Reference &lt;-&gt; Reference to Value</li>
+<li>Replace Array with Object
+<ul>
+<li>row = [ Liverpool, 15 ] =&gt; row.name = &quot;Liverpool&quot;; row.wins = &quot;15&quot;</li>
+<li>이런 식으로 다른 타입의 데이터들을 나열해서 넣는 케이스가 흔하지는 않은 것 같다.</li>
+</ul>
+</li>
+<li>Replace Hash with Object</li>
+<li>Change Unidirectional Association to Bidirectional &lt;-&gt; Bi to Uni
+<ul>
+<li>두 클래스가 서로의 기능을 공유할때 참조/연결되게끔 메서드를 작성</li>
+<li>혹은 반대로 종속성/버그발생 증가를 막기 위해 연결을 푸는 경우도 있다.</li>
+</ul>
+</li>
+<li>Replace Magic Number with Symbolic Constant
+<ul>
+<li>특수한 의미가 있는 상수는 상수명을 명시해준다.</li>
+</ul>
+</li>
+<li>Encapsulate Collection
+<ul>
+<li>컬렉션은 일반 데이터와 달리 반환할 때 사본을 반환하는 것이 좋다. 데이터 조작 가능성이 있기 때문에.</li>
+<li>컬렉션을 바로 set 하는 대신 컬렉션 아이템을 add/remove하는 메서드를 작성</li>
+</ul>
+</li>
+<li>Replace Type Code with Polymorphism/Module Extension/State/Strategy
+<ul>
+<li>타입 코드가 클래스의 기능에 영향을 미칠때 -&gt; 메서드 내에서 조건 분기를 시키는 대신 module으로 재정의/확장해 사용</li>
+</ul>
+</li>
+<li>Replace Subclass with Fields
+<ul>
+<li>상수 데이터만 반환하는 하위클래스들이 있을 경우 상위클래스 필드로 합침</li>
+<li>Person, Male, Female</li>
+<li>이런 케이스도 설계가 매우 잘못되지 않는 이상 보기 힘든 케이스로 보임</li>
+</ul>
+</li>
+<li>Lazily Initialized Attrtibute &lt;-&gt; Eagerly Initalized Attribute
+<ul>
+<li>초기화를 접근 시 해야 하는가? &lt;-&gt; 생성 시 해야 하는가?</li>
+<li>접근 시 하는 경우
+<ul>
+<li>초기화해야할 필드가 많아져도 가독성 유지 가능</li>
+</ul>
+</li>
+<li>생성 시 하는 경우
+<ul>
+<li>초기화 로직이 생성자 안에 캡슐화됨</li>
+<li>값 질의 시 일관된 결과 / 디버깅 시 문제 가능성 없음</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Chap 9: 조건문 간결화</p>
+<ul>
+<li>Decompose Conditional
+<ul>
+<li>읽기에 복잡한 조건문은 메서드로 따로 뺌</li>
+</ul>
+</li>
+<li>Recompose Conditional
+<ul>
+<li>삼항 연산자 대입문을 or을 이용해 표기</li>
+</ul>
+</li>
+</ul>
+<pre><div class="code-style" style="color:#f8f8f2;background:#272822;text-shadow:0 1px rgba(0, 0, 0, 0.3);font-family:Consolas, Monaco, &#x27;Andale Mono&#x27;, &#x27;Ubuntu Mono&#x27;, monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;padding:1em;margin:.5em 0;overflow:auto;border-radius:0.3em"><code class="language-ruby" style="color:#f8f8f2;background:none;text-shadow:0 1px rgba(0, 0, 0, 0.3);font-family:Consolas, Monaco, &#x27;Andale Mono&#x27;, &#x27;Ubuntu Mono&#x27;, monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none"><span>parameters </span><span class="token" style="color:#f8f8f2">=</span><span> params </span><span class="token" style="color:#f8f8f2">?</span><span> params </span><span class="token" style="color:#f8f8f2">:</span><span> </span><span class="token" style="color:#f8f8f2">[</span><span class="token" style="color:#f8f8f2">]</span><span class="token" style="color:#f8f8f2">;</span><span>
+</span><span>parameters </span><span class="token" style="color:#f8f8f2">=</span><span> params </span><span class="token" style="color:#f8f8f2">||</span><span> </span><span class="token" style="color:#f8f8f2">[</span><span class="token" style="color:#f8f8f2">]</span><span class="token" style="color:#f8f8f2">;</span></code></div></pre>
+<ul>
+<li>조건문을 명시적 return 문으로 교체</li>
+</ul>
+<pre><div class="code-style" style="color:#f8f8f2;background:#272822;text-shadow:0 1px rgba(0, 0, 0, 0.3);font-family:Consolas, Monaco, &#x27;Andale Mono&#x27;, &#x27;Ubuntu Mono&#x27;, monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;padding:1em;margin:.5em 0;overflow:auto;border-radius:0.3em"><code class="language-ruby" style="color:#f8f8f2;background:none;text-shadow:0 1px rgba(0, 0, 0, 0.3);font-family:Consolas, Monaco, &#x27;Andale Mono&#x27;, &#x27;Ubuntu Mono&#x27;, monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none"><span class="token" style="color:#66d9ef">return</span><span> </span><span class="token" style="color:#ae81ff">2</span><span> </span><span class="token" style="color:#66d9ef">if</span><span> days_rented </span><span class="token" style="color:#f8f8f2">&gt;</span><span> </span><span class="token" style="color:#ae81ff">2</span><span>
+</span><span></span><span class="token" style="color:#ae81ff">1</span></code></div></pre>
+<ul>
+<li>Consolidate Conditional Expression
+<ul>
+<li>조건문을 합침으로써 가독성 증가 및 메서드 추출의 가능성을 만들 수 있음</li>
+</ul>
+</li>
+<li>Consolidate Duplicate Conditional Fregments
+<ul>
+<li>조건문의 모든 구간에 같은 코드가 있으면 밖으로 빼낸다. 당연한 내용.</li>
+</ul>
+</li>
+<li>Remove Control Flag</li>
+</ul>
+<pre><div class="code-style" style="color:#f8f8f2;background:#272822;text-shadow:0 1px rgba(0, 0, 0, 0.3);font-family:Consolas, Monaco, &#x27;Andale Mono&#x27;, &#x27;Ubuntu Mono&#x27;, monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;padding:1em;margin:.5em 0;overflow:auto;border-radius:0.3em"><code class="language-ruby" style="color:#f8f8f2;background:none;text-shadow:0 1px rgba(0, 0, 0, 0.3);font-family:Consolas, Monaco, &#x27;Andale Mono&#x27;, &#x27;Ubuntu Mono&#x27;, monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none"><span class="token" style="color:#8292a2"># don&#x27;t do this</span><span>
+</span><span>done </span><span class="token" style="color:#f8f8f2">=</span><span> </span><span class="token" style="color:#ae81ff">false</span><span>
+</span><span>	</span><span class="token" style="color:#66d9ef">until</span><span> done </span><span class="token" style="color:#66d9ef">do</span><span>
+</span><span>	</span><span class="token" style="color:#66d9ef">if</span><span> </span><span class="token" style="color:#f8f8f2">(</span><span> condition </span><span class="token" style="color:#f8f8f2">)</span><span>
+</span><span>		</span><span class="token" style="color:#8292a2"># do something</span><span>
+</span><span>		done </span><span class="token" style="color:#f8f8f2">=</span><span> </span><span class="token" style="color:#ae81ff">true</span><span>
+</span><span>	</span><span class="token" style="color:#66d9ef">end</span><span>
+</span><span>	value </span><span class="token" style="color:#f8f8f2">-=</span><span> </span><span class="token" style="color:#ae81ff">1</span><span>
+</span><span></span><span class="token" style="color:#66d9ef">end</span></code></div></pre>
+<pre><div class="code-style" style="color:#f8f8f2;background:#272822;text-shadow:0 1px rgba(0, 0, 0, 0.3);font-family:Consolas, Monaco, &#x27;Andale Mono&#x27;, &#x27;Ubuntu Mono&#x27;, monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;padding:1em;margin:.5em 0;overflow:auto;border-radius:0.3em"><code class="language-ruby" style="color:#f8f8f2;background:none;text-shadow:0 1px rgba(0, 0, 0, 0.3);font-family:Consolas, Monaco, &#x27;Andale Mono&#x27;, &#x27;Ubuntu Mono&#x27;, monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none"><span class="token" style="color:#8292a2"># instead of ...</span><span>
+</span><span></span><span class="token" style="color:#66d9ef">until</span><span> done </span><span class="token" style="color:#66d9ef">do</span><span>
+</span><span>	</span><span class="token" style="color:#66d9ef">if</span><span> </span><span class="token" style="color:#f8f8f2">(</span><span> condition </span><span class="token" style="color:#f8f8f2">)</span><span>
+</span><span>	</span><span class="token" style="color:#8292a2"># do something</span><span>
+</span><span>	</span><span class="token" style="color:#66d9ef">return</span><span> value
+</span><span>	</span><span class="token" style="color:#66d9ef">end</span><span>
+</span><span>	value </span><span class="token" style="color:#f8f8f2">-=</span><span> </span><span class="token" style="color:#ae81ff">1</span><span>
+</span><span></span><span class="token" style="color:#66d9ef">end</span></code></div></pre>
+<ul>
+<li>done 같은 제어 플래그를 쓰는 대신 return 으로 빠져나가게끔 작성한다.
+<ul>
+<li>이러한 제어 플래그는 구조적 프로그래밍에서 사용했던 문법의 잔재</li>
+</ul>
+</li>
+<li>Replace Nested Conditional with Guard Clauses
+<ul>
+<li>if-then-else 구조는 읽을 때 if 절과 else 절의 중요성이 똑같다고 판단하게끔 한다.</li>
+<li>if-else 절이 복잡할때 특이한 case들은 검사( 감시절 : guard clause )하여 return 시킨다</li>
+<li>“이것은 드문 경우이니 이 경우가 발생한다면 작업을 수행한 후 빠져나가라”</li>
+<li>현재 코드의 model 코드에 비슷한 코드</li>
+</ul>
+</li>
+<li>Replace Conditional with Polymorphism
+<ul>
+<li>타입 등으로 다른 동작을 조건문을 통해 분기시킬 때 재정의(다형성)을 이용</li>
+</ul>
+</li>
+<li>Null 검사를 널 객체에 위임
+<ul>
+<li>위와 비슷하게 null 검사도 조건문을 통해 검사하지 말고 클래스에 해당하는 널 클래스를 작성</li>
+<li>필요성?</li>
+</ul>
+</li>
+<li>Introduce Assertion
+<ul>
+<li>현재 코드에선 단위 테스트가 이 기능을 하고 있는 것 같다.</li>
+<li>또한 단위 테스트가 실제 로직 코드 파일과 분리되어 있고 다양한 케이스를 추가할 수 있음</li>
+</ul>
+</li>
+</ul>
+<p>Chap 10: 메서드 호출 단순화</p>
+<ul>
+<li>Rename Method</li>
+<li>네이밍. 당연해서 부가 설명 필요 없음</li>
+<li>Add Parameter &lt;-&gt; Remove Parameter</li>
+<li>매개변수가 계속 길어지면 가독성이 안좋아지는 경우가 많다. 추가보단 정리를 권함</li>
+<li>매개변수가 많을 시 객체로 묶을 수 있는 지 체크</li>
+<li>Separate Query from Modifier</li>
+<li>상태 변경 등 액션 + 리턴을 동시에 하는 메서드가 있으면 둘을 분리</li>
+<li>합쳐져 있을 경우 눈에 띄지 않는 부작용이 생길 수 있음
+<ul>
+<li>ex 여러번 값 조회 테스트 시 내부 상태 값이 예상치 못하게 변하는 케이스</li>
+</ul>
+</li>
+<li>멀티스레딩 환경 개발 시에도 예외는 없다. 값 조회, 상태 변경 기능을 분리 작성 후, 제 3의 메서드에서 합쳐서 사용하면 문제도 안생기고, 모듈화된 두 메서드도 재사용 가능하다.</li>
+<li>Replace Parameter with Explicit Methods</li>
+<li>매개변수에 따라 분기해 다른 코드를 실행할 경우엔 아예 메서드를 분리시켜 버리라는 내용</li>
+</ul>
+<pre><div class="code-style" style="color:#f8f8f2;background:#272822;text-shadow:0 1px rgba(0, 0, 0, 0.3);font-family:Consolas, Monaco, &#x27;Andale Mono&#x27;, &#x27;Ubuntu Mono&#x27;, monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;padding:1em;margin:.5em 0;overflow:auto;border-radius:0.3em"><code class="language-ruby" style="color:#f8f8f2;background:none;text-shadow:0 1px rgba(0, 0, 0, 0.3);font-family:Consolas, Monaco, &#x27;Andale Mono&#x27;, &#x27;Ubuntu Mono&#x27;, monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none"><span>set_value</span><span class="token" style="color:#f8f8f2">(</span><span class="token string-literal" style="color:#a6e22e">&quot;height&quot;</span><span class="token" style="color:#f8f8f2">,</span><span> </span><span class="token" style="color:#ae81ff">10</span><span class="token" style="color:#f8f8f2">)</span><span> </span><span class="token" style="color:#f8f8f2">,</span><span> set_value</span><span class="token" style="color:#f8f8f2">(</span><span class="token string-literal" style="color:#a6e22e">&quot;width&quot;</span><span class="token" style="color:#f8f8f2">,</span><span> </span><span class="token" style="color:#ae81ff">50</span><span class="token" style="color:#f8f8f2">)</span><span>
+</span><span></span><span class="token" style="color:#f8f8f2">-</span><span class="token" style="color:#f8f8f2">&gt;</span><span> height</span><span class="token" style="color:#f8f8f2">(</span><span class="token" style="color:#ae81ff">10</span><span class="token" style="color:#f8f8f2">)</span><span class="token" style="color:#f8f8f2">,</span><span> width</span><span class="token" style="color:#f8f8f2">(</span><span class="token" style="color:#ae81ff">50</span><span class="token" style="color:#f8f8f2">)</span><span class="token" style="color:#f8f8f2">,</span></code></div></pre>
+<ul>
+<li>매개변수가 가변적이면 하지 않는게 좋다.</li>
+<li>Preserve Whole Object
+- 객체에서 가져온 여러 값을 파라미터로 전달하고 있는 경우, 아예 객체를 전달</li>
+<li>Replace Parameter with Method
+<ul>
+<li>A메서드 결과를 B메서드에 파라미터로 전달한다. 근데 B 내에서도 A메서드를 호출 가능</li>
+<li>-&gt; B 내에서 A메서드를 호출하게 한다. 당연함</li>
+</ul>
+</li>
+<li>Introduce Parameter Object
+<ul>
+<li>전달되는 파라미터가 붙어 다닐 경우 객체로 묶는 것을 고려 ( Preserve Whole Object 와 비슷 )</li>
+</ul>
+</li>
+<li>Remove Setting Method
+<ul>
+<li>필드 값이 변경 후 수정되면 안될 경우 쓰기 메서드를 제거</li>
+</ul>
+</li>
+<li>Hide Method
+<ul>
+<li>메서드가 다른 클래스에 사용되지 않을 경우 private으로 작성</li>
+</ul>
+</li>
+<li>Replace Constructor with Factory Method
+<ul>
+<li>생성자 내에 생성할 객체 타입이 변하거나 로직이 복잡할 경우 팩토리 메서드로 전환</li>
+</ul>
+</li>
+<li>Replace Error Code with Exception
+<ul>
+<li>에러 코드 대신 예외를 사용하라는 내용</li>
+<li>ruby에 예외 기능이 있어 사용하라는 것 같은데 언어에 따라 다를 수도 있을 것 같다.</li>
+<li>시스템 상 예측하지 못한 에러면 예외를 발생시키는게 맞지만 단지 비즈니스 로직 상 실패를 처리할 경우를 모두 예외처리를 하는 것도 안좋은 방식이라는 글을 본적이 있다. ( Java를 비판하는 글로 기억 )</li>
+</ul>
+</li>
+<li>Introduce Gateway / Introduce Expression Builder
+<ul>
+<li>외부 시스템이나 리소스의 복합 API를 연동해야 할 경우 공통으로 지나는 부분을 모듈화</li>
+<li>
+<ul>
+<li>builder 패턴</li>
+</ul>
+</li>
+<li>현재 앱단 코드의 service 쪽을 생각하면 된다.</li>
+</ul>
+</li>
+</ul>
+<p>Chap 11: 일반화 처리</p>
+<ul>
+<li>Pull Up Method &lt;-&gt; Push Down Method
+<ul>
+<li>여러 하위클래스에 중복 메서드가 있으면 상위 클래스로 메서드 이동</li>
+<li>상위클래스에 있는 기능이 일부 하위클래스에만 관련돼 있을 때는 관련 하위클래스로 이동</li>
+</ul>
+</li>
+<li>Extract Module &lt;-&gt; Inline Module
+<ul>
+<li>여러 클래스에 같은 동작이 있을 때는 모듈로 분리하고 각 클래스에서 include</li>
+<li>문법은 다르지만 java의 interface와 비슷한 의도로 추정</li>
+</ul>
+</li>
+<li>Extract Subclass
+<ul>
+<li>클래스에 일부 인스턴스만 사용하는 기능이 있을 경우</li>
+<li>하위클래스 작성 후 Push Down Method</li>
+</ul>
+</li>
+<li>Introduce Inheritance
+<ul>
+<li>여러 클래스의 기능이 비슷할 경우</li>
+<li>상위 클래스 작성 후 공통 기능을 Pull up Method</li>
+</ul>
+</li>
+<li>Collapse Hierarchy
+<ul>
+<li>상위클래스와 하위클래스가 별로 다르지 않을때는 합침</li>
+</ul>
+</li>
+<li>Form Template Method
+<ul>
+<li>하위클래스들의 메서드의 진행 순서는 비슷하지만 같지는 않은 경우 (a<code>+b</code>), (a<code>+b</code>)</li>
+<li>메서드 내 공통 부분을 묶어서 템플릿 메서드의 조합으로 만듬 (a와 b)</li>
+<li>그 후 Pull up Method (a+b)</li>
+</ul>
+</li>
+<li>Replace Inheritance with Delegation
+<ul>
+<li>하위클래스가 상위클래스의 극히 일부만 사용할 경우 상속의 의미가 적어진다.</li>
+<li>필드를 추가 후 필요한 기능만 위임해서 사용</li>
+<li>ex) Hash의 기능 일부를 쓴다고 Hash를 통째로 상속 받는 것보단 Hash 형태 의 필드를 추가 후 필요한 기능만 위임 처리</li>
+</ul>
+</li>
+<li>Replace Delegation with Hierarchy
+<ul>
+<li>대리 객체의 위임을 많이 작성하게 된다면 차라리 계층 구조로 만드는 것이 나음</li>
+</ul>
+</li>
+<li>Replace Abstract Superclass with Module
+<ul>
+<li>상속 구조이나 상위클래스를 인스턴스화 시킬 의도가 없을 때</li>
+<li>Java의 Abstract가 ruby에는 없으므로 module로 구현</li>
+</ul>
+</li>
+</ul>
+<p>비판
+- 마틴 파울러
+- 내용이 길고 장황한 것에 비해 남는게 없다 ?
+- -&gt; 그나마 호평을 받은 책은 &#x27;클린 코드&#x27; 정도.</p></div></div></section></main></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"blog":{"id":"8c2ca35a-1e5e-4add-b192-563d56604b51","title":"\"리팩토링: 루비 에디션\" 후기","content":"## 서론\n\n이 책을 접할 때 마침 개인적으로 ruby(정확히는 rails를 위한 ruby) 공부를 하고 있었고,\n\n또한 리팩토링 책도 유명하긴 하지만 java 기반으로 알고 있었는데, 루비 기반으로 된 책이면 둘 다 접할 기회라 생각하여 읽게 되었다.\n\n## 구성\n\n크게 리팩토링이 무엇인지, 왜 쓰는지, 언제 써야 하는지 등 개요가 나오고 단위 테스트 잠깐 소개, 그 이후는 열거 방식으로 나열되어 있다. \n\n현재 열거 부분 첫 챕터인 메서드 정리 부분까지 본 상태인데, 아직 초반이라 그런지 그 전부터 체득된 패턴들이 많이 나와서 익숙했다.\n\n뒷 부분에는 클래스 추출 등 데이터 설계까지 고려하는 부분이 나오는 것 같은데 읽어봐야 알 것 같다.\n\n메서드 챕터 부분은 메서드를 리팩토링하면서 접할 수 있는 모듈화, 메서드 내 파라미터 등을 어떻게 처리할지 등에 대한 사례들 있는데 사실 이런 과정들은 경험에 의해 체득됬었지, 이렇게 패턴별로 나열해서 생각해본적은 없었던 것 같다.\n\n죽 보면서 이렇게 이 때는 이런게 필요하겠다 하는 식으로 정리해서 내 것으로 가지고 있으면 언젠간 도움이 될 거 같다.\n\n\n## ruby\n\noop, 동적 타입, 스크립트 언어 ( +함수형 프로그래밍 )\n\n사실 ruby는 큰 기대를 안하고 rails 공부를 위해 접했는데, 신선한 면이 많은 언어였다.\n\n특히 컬렉션을 다루는 enumerable 메서드들이 편리한게 많다.\n\n```ruby\narr = (1...4).select { |x| x % 2 == 0 }\n# =\u003e [2]\n```\n\n최근 애용하고 있는 [lodash](http://www.lodash.com)에도 이러한 컬렉션 메서드들이 꽤 있다.\n\n그 외 매개변수가 아닌 코드 블럭 자체를 파라미터로 넘기는 등 접할 땐 당황스럽지만 편리한 기능들이 있었다.\n\n## 리팩토링\n\nChap 7: 객체 간의 기능 이동\n\n- Move Method\n  - 메서드가 자신이 속한 클래스보다 다른 클래스의 기능을 더 많이 이용할 경우 그 클래스로 메서드 이동\n- Move FIeld\n  - 필드가 자신이 속한 클래스보다 다른 클래스에서 더 많이 사용될 경우 그 클래스로 필드 이동\n- Extract Class \u003c-\u003e Inline Class\n  - 클래스 분리/합침\n\t- Hide Delegate ( 대리 객체 은폐 ) \u003c-\u003e Remove Middle Man ( 과잉 중개자 제거 )\n\t\t- 객체 내 메서드에서 내부 객체 메서드를 콜하는 상황일때 Forwardable 모듈을 이용 위임하라는 내용인데 루비 한정으로 보여짐\n\t\t- 굳이 다른 언어에서 구현하려면 랩핑하는 메서드를 추가하는 정도\n\nChap 8: 데이터 체계화\n- Self Encapsulate Field\n  - indirect/direct vailable access\n  - 필드를 직접 접근하지 말고 getter/setter 역할을 하는 메서드를 사용하라는 내용\n  - oop에서 당연히 필요한 요소로 생각했으나 반대의 입장도 있는 듯\n- Replace Data Value with Object\n  - 한 필드가 단순 데이터에서 복잡한 데이터를 표현해야 할 경우 그 필드를 객체로 전환\n- Change Value to Reference \u003c-\u003e Reference to Value\n- Replace Array with Object\n  - row = [ Liverpool, 15 ] =\u003e row.name = \"Liverpool\"; row.wins = \"15\"\n  - 이런 식으로 다른 타입의 데이터들을 나열해서 넣는 케이스가 흔하지는 않은 것 같다.\n- Replace Hash with Object\n- Change Unidirectional Association to Bidirectional \u003c-\u003e Bi to Uni\n  - 두 클래스가 서로의 기능을 공유할때 참조/연결되게끔 메서드를 작성\n  - 혹은 반대로 종속성/버그발생 증가를 막기 위해 연결을 푸는 경우도 있다.\n- Replace Magic Number with Symbolic Constant\n  - 특수한 의미가 있는 상수는 상수명을 명시해준다.\n- Encapsulate Collection\n  - 컬렉션은 일반 데이터와 달리 반환할 때 사본을 반환하는 것이 좋다. 데이터 조작 가능성이 있기 때문에.\n  - 컬렉션을 바로 set 하는 대신 컬렉션 아이템을 add/remove하는 메서드를 작성\n- Replace Type Code with Polymorphism/Module Extension/State/Strategy\n  - 타입 코드가 클래스의 기능에 영향을 미칠때 -\u003e 메서드 내에서 조건 분기를 시키는 대신 module으로 재정의/확장해 사용\n- Replace Subclass with Fields\n  - 상수 데이터만 반환하는 하위클래스들이 있을 경우 상위클래스 필드로 합침\n  - Person, Male, Female\n  - 이런 케이스도 설계가 매우 잘못되지 않는 이상 보기 힘든 케이스로 보임\n- Lazily Initialized Attrtibute \u003c-\u003e Eagerly Initalized Attribute\n  - 초기화를 접근 시 해야 하는가? \u003c-\u003e 생성 시 해야 하는가?\n  - 접근 시 하는 경우\n    - 초기화해야할 필드가 많아져도 가독성 유지 가능\n  - 생성 시 하는 경우\n    - 초기화 로직이 생성자 안에 캡슐화됨\n    - 값 질의 시 일관된 결과 / 디버깅 시 문제 가능성 없음\n\nChap 9: 조건문 간결화\n- Decompose Conditional\n  - 읽기에 복잡한 조건문은 메서드로 따로 뺌\n- Recompose Conditional\n  - 삼항 연산자 대입문을 or을 이용해 표기\n```ruby\nparameters = params ? params : [];\nparameters = params || [];\n```\n- 조건문을 명시적 return 문으로 교체\n\n```ruby\nreturn 2 if days_rented \u003e 2\n1\n```\n\n- Consolidate Conditional Expression\n  - 조건문을 합침으로써 가독성 증가 및 메서드 추출의 가능성을 만들 수 있음\n- Consolidate Duplicate Conditional Fregments\n  - 조건문의 모든 구간에 같은 코드가 있으면 밖으로 빼낸다. 당연한 내용.\n- Remove Control Flag\n```ruby\n# don't do this\ndone = false\n\tuntil done do\n\tif ( condition )\n\t\t# do something\n\t\tdone = true\n\tend\n\tvalue -= 1\nend\n```\n```ruby\n# instead of ...\nuntil done do\n\tif ( condition )\n\t# do something\n\treturn value\n\tend\n\tvalue -= 1\nend\n```\n- done 같은 제어 플래그를 쓰는 대신 return 으로 빠져나가게끔 작성한다.\n  - 이러한 제어 플래그는 구조적 프로그래밍에서 사용했던 문법의 잔재\n- Replace Nested Conditional with Guard Clauses\n  - if-then-else 구조는 읽을 때 if 절과 else 절의 중요성이 똑같다고 판단하게끔 한다.\n  - if-else 절이 복잡할때 특이한 case들은 검사( 감시절 : guard clause )하여 return 시킨다\n  - “이것은 드문 경우이니 이 경우가 발생한다면 작업을 수행한 후 빠져나가라”\n  - 현재 코드의 model 코드에 비슷한 코드\n- Replace Conditional with Polymorphism\n  - 타입 등으로 다른 동작을 조건문을 통해 분기시킬 때 재정의(다형성)을 이용\n- Null 검사를 널 객체에 위임\n  - 위와 비슷하게 null 검사도 조건문을 통해 검사하지 말고 클래스에 해당하는 널 클래스를 작성\n  - 필요성?\n- Introduce Assertion\n  - 현재 코드에선 단위 테스트가 이 기능을 하고 있는 것 같다.\n  - 또한 단위 테스트가 실제 로직 코드 파일과 분리되어 있고 다양한 케이스를 추가할 수 있음\n\nChap 10: 메서드 호출 단순화\n\n- Rename Method\n- 네이밍. 당연해서 부가 설명 필요 없음\n- Add Parameter \u003c-\u003e Remove Parameter\n- 매개변수가 계속 길어지면 가독성이 안좋아지는 경우가 많다. 추가보단 정리를 권함\n- 매개변수가 많을 시 객체로 묶을 수 있는 지 체크\n- Separate Query from Modifier\n- 상태 변경 등 액션 + 리턴을 동시에 하는 메서드가 있으면 둘을 분리\n- 합쳐져 있을 경우 눈에 띄지 않는 부작용이 생길 수 있음\n  - ex 여러번 값 조회 테스트 시 내부 상태 값이 예상치 못하게 변하는 케이스\n- 멀티스레딩 환경 개발 시에도 예외는 없다. 값 조회, 상태 변경 기능을 분리 작성 후, 제 3의 메서드에서 합쳐서 사용하면 문제도 안생기고, 모듈화된 두 메서드도 재사용 가능하다.\n- Replace Parameter with Explicit Methods\n- 매개변수에 따라 분기해 다른 코드를 실행할 경우엔 아예 메서드를 분리시켜 버리라는 내용\n\n```ruby\nset_value(\"height\", 10) , set_value(\"width\", 50)\n-\u003e height(10), width(50),\n```\n\n  - 매개변수가 가변적이면 하지 않는게 좋다.\n- Preserve Whole Object\n\t\t- 객체에서 가져온 여러 값을 파라미터로 전달하고 있는 경우, 아예 객체를 전달\n- Replace Parameter with Method\n  - A메서드 결과를 B메서드에 파라미터로 전달한다. 근데 B 내에서도 A메서드를 호출 가능\n  - -\u003e B 내에서 A메서드를 호출하게 한다. 당연함\n- Introduce Parameter Object\n  - 전달되는 파라미터가 붙어 다닐 경우 객체로 묶는 것을 고려 ( Preserve Whole Object 와 비슷 )\n- Remove Setting Method\n  - 필드 값이 변경 후 수정되면 안될 경우 쓰기 메서드를 제거\n- Hide Method\n  - 메서드가 다른 클래스에 사용되지 않을 경우 private으로 작성\n- Replace Constructor with Factory Method\n  - 생성자 내에 생성할 객체 타입이 변하거나 로직이 복잡할 경우 팩토리 메서드로 전환\n- Replace Error Code with Exception\n  - 에러 코드 대신 예외를 사용하라는 내용\n  - ruby에 예외 기능이 있어 사용하라는 것 같은데 언어에 따라 다를 수도 있을 것 같다.\n  - 시스템 상 예측하지 못한 에러면 예외를 발생시키는게 맞지만 단지 비즈니스 로직 상 실패를 처리할 경우를 모두 예외처리를 하는 것도 안좋은 방식이라는 글을 본적이 있다. ( Java를 비판하는 글로 기억 )\n- Introduce Gateway / Introduce Expression Builder\n  - 외부 시스템이나 리소스의 복합 API를 연동해야 할 경우 공통으로 지나는 부분을 모듈화\n  - + builder 패턴\n  - 현재 앱단 코드의 service 쪽을 생각하면 된다.\n\nChap 11: 일반화 처리\n- Pull Up Method \u003c-\u003e Push Down Method\n  - 여러 하위클래스에 중복 메서드가 있으면 상위 클래스로 메서드 이동\n  - 상위클래스에 있는 기능이 일부 하위클래스에만 관련돼 있을 때는 관련 하위클래스로 이동\n- Extract Module \u003c-\u003e Inline Module\n  - 여러 클래스에 같은 동작이 있을 때는 모듈로 분리하고 각 클래스에서 include\n  - 문법은 다르지만 java의 interface와 비슷한 의도로 추정\n- Extract Subclass\n  - 클래스에 일부 인스턴스만 사용하는 기능이 있을 경우\n  - 하위클래스 작성 후 Push Down Method\n- Introduce Inheritance\n  - 여러 클래스의 기능이 비슷할 경우\n  - 상위 클래스 작성 후 공통 기능을 Pull up Method\n- Collapse Hierarchy\n  - 상위클래스와 하위클래스가 별로 다르지 않을때는 합침\n- Form Template Method\n  - 하위클래스들의 메서드의 진행 순서는 비슷하지만 같지는 않은 경우 (a`+b`), (a``+b``)\n  - 메서드 내 공통 부분을 묶어서 템플릿 메서드의 조합으로 만듬 (a와 b)\n  - 그 후 Pull up Method (a+b)\n- Replace Inheritance with Delegation\n  - 하위클래스가 상위클래스의 극히 일부만 사용할 경우 상속의 의미가 적어진다.\n  - 필드를 추가 후 필요한 기능만 위임해서 사용\n  - ex) Hash의 기능 일부를 쓴다고 Hash를 통째로 상속 받는 것보단 Hash 형태 의 필드를 추가 후 필요한 기능만 위임 처리\n- Replace Delegation with Hierarchy\n  - 대리 객체의 위임을 많이 작성하게 된다면 차라리 계층 구조로 만드는 것이 나음\n- Replace Abstract Superclass with Module\n  - 상속 구조이나 상위클래스를 인스턴스화 시킬 의도가 없을 때\n  - Java의 Abstract가 ruby에는 없으므로 module로 구현\n  \n비판\n\t- 마틴 파울러\n\t\t- 내용이 길고 장황한 것에 비해 남는게 없다 ?\n\t\t- -\u003e 그나마 호평을 받은 책은 '클린 코드' 정도.","created_at":"2018-01-17T22:55:04+00:00","subtitle":null,"is_show":true}},"__N_SSG":true},"page":"/blog/[id]","query":{"id":"8c2ca35a-1e5e-4add-b192-563d56604b51"},"buildId":"qCVLyrVZjqXoqsT0OPv9e","isFallback":false,"gsp":true,"scriptLoader":[]}</script></body></html>
