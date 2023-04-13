@@ -15,7 +15,7 @@ const DEFAULT_CONFIG: MermaidConfig = {
   arrowMarkerAbsolute: false,
   flowchart: {
     htmlLabels: true,
-    curve: "linear",
+    curve: "linear"
   },
   sequence: {
     diagramMarginX: 50,
@@ -31,7 +31,7 @@ const DEFAULT_CONFIG: MermaidConfig = {
     bottomMarginAdj: 1,
     useMaxWidth: true,
     rightAngles: false,
-    showSequenceNumbers: false,
+    showSequenceNumbers: false
   },
   gantt: {
     titleTopMargin: 25,
@@ -41,10 +41,9 @@ const DEFAULT_CONFIG: MermaidConfig = {
     leftPadding: 75,
     gridLineStartPadding: 35,
     fontSize: 11,
-    // fontFamily: '"Open-Sans", "sans-serif"',
     numberSectionStyles: 4,
-    axisFormat: "%Y-%m-%d",
-  },
+    axisFormat: "%Y-%m-%d"
+  }
 }
 
 export default function Mermaid(props: React.PropsWithChildren<Props>) {
