@@ -1,15 +1,15 @@
 {
-  "name": "kimjbstar.github.io",
+  "name": "kimjbstar-blog",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://kimjbstar.github.io",
+  "homepage": "https://kimjbstar.github.io/kimjbstar-blog",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "export": "next export",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "yarn build && yarn export && gh-pages -d out"
+    "deploy": "next build && next export && touch out/.nojekyll && git add -f out/ && git commit -m 'deploy to gh-pages' && git subtree push --prefix out origin gh-pages"
   },
   "dependencies": {
     "@next/font": "^13.1.6",
