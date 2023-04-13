@@ -24,7 +24,8 @@
     "**/*.ts",
     "**/*.tsx",
     "src/pages/_document.tsx",
-    "src/context/context.js"
+    "src/context/context.js",
+    "src/config/config.js"
   ],
   "exclude": ["node_modules"]
 }
