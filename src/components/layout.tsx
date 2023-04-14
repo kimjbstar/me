@@ -7,7 +7,7 @@ export default function Layout(props: React.PropsWithChildren<Props>) {
   return (
     <>
       <Header></Header>
-      {props.children}
+      <div className="p-20">{props.children}</div>
     </>
   )
 }

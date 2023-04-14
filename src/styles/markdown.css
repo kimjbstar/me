@@ -100,3 +100,13 @@
 .markdown-body .highlight pre {
   @apply bg-gray-100 !important;
 }
+
+.markdown-body img {
+  max-width: 80%;
+  height: auto;
+}
+
+/** any langulage */
+.markdown-body pre code {
+  font-size: 0.6em !important;
+}

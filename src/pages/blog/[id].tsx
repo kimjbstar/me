@@ -3,6 +3,7 @@ import Layout from "@/components/layout"
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next"
 import supabase from "@/lib/supabaseClient"
 import BlogMarkDown from "@/components/blog-markdown"
+import dayjs from "dayjs"
 
 export type Blog = {
   id: number
@@ -45,10 +46,12 @@ const PostDetailPage = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => (
   <Layout>
     <section className="flex flex-col items-center mt-20">
-      <div className="max-w-7xl flex flex-col">
-        <div className="text-6xl mb-10 font-bold text-gray-800">{title}</div>
-        <div className="text-4xl mb-10 text-gray-700">{subtitle}</div>
-        <div className="self-end">{created_at}</div>
+      <div className="text-6xl mb-10 font-bold text-gray-800">{title}</div>
+      <div className="text-4xl mb-10 text-gray-700">{subtitle}</div>
+      <div className="self-end">
+        {dayjs(created_at).format("YYYY년 MM월 DD일")}
+      </div>
+      <div className="p-4">
         <BlogMarkDown content={content}></BlogMarkDown>
       </div>
     </section>
