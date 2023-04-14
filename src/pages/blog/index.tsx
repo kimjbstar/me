@@ -24,17 +24,17 @@ const BlogIndexPage = function ({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <Layout>
-      <p>블로그 페이지 입니다.</p>
-      <hr />
-      <ul className="p-4">
+      <ul>
         {blogs.map(({ id, title, created_at }) => (
           <li key={id}>
             <Link
               href={`/blog/${id}`}
-              className="border flex justify-between p-4"
+              className="border flex p-4 justify-between flex-col"
             >
               <div>{title}</div>
-              <div>{dayjs(created_at).format("YY년 MM월 DD일")}</div>
+              <div className="self-end">
+                {dayjs(created_at).format("YY년 MM월 DD일")}
+              </div>
             </Link>
           </li>
         ))}
