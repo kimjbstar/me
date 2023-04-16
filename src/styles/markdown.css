@@ -66,6 +66,8 @@
 
 .markdown-body pre {
   @apply bg-gray-100 rounded p-4;
+  overflow-x: scroll;
+  max-width: 90vw;
 }
 
 .markdown-body pre code {
@@ -108,5 +110,5 @@
 
 /** any langulage */
 .markdown-body pre code {
-  font-size: 0.6em !important;
+  font-size: 1em !important;
 }
