@@ -10,20 +10,10 @@ const About = () => (
       <div className="flex items-center">
         <div className="m-2 text-5xl mr-5">🇰🇷</div>
         <a href="mailto:kimjbstar@gmail.com" className="mr-5">
-          <Image
-            className="w-10 h-10"
-            src={iconMail}
-            alt="mailto"
-            sizes="100px,100px"
-          ></Image>
+          <img className="w-10 h-10" src={iconMail.src} alt="mailto"></img>
         </a>
         <a href="https://github.com/kimjbstar" target="_blank" rel="noreferrer">
-          <Image
-            className="w-10 h-10"
-            src={iconGithub}
-            alt="github"
-            sizes="100px,100px"
-          ></Image>
+          <img className="w-10 h-10" src={iconGithub.src} alt="github"></img>
         </a>
       </div>
     </div>
