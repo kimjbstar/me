@@ -2,7 +2,12 @@
 
 const nextConfig = {
   reactStrictMode: true,
-  basePath: "/me"
+  basePath: "/me",
+  output: "export",
+  images: {
+    loader: "akamai",
+    path: "/me"
+  }
   // swcMinify: true,
   // experimental: {
   //   swcPlugins: [["typewind/swc", {}]]
