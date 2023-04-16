@@ -1,8 +1,8 @@
 {
-  "name": "about",
+  "name": "me",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://kimjbstar.github.io/about",
+  "homepage": "http://kimjbstar.github.io/me",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

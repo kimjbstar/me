@@ -29,10 +29,10 @@ const BlogIndexPage = function ({
           <li key={id}>
             <Link
               href={`/blog/${id}`}
-              className="border flex p-4 justify-between flex-col"
+              className="border flex p-3 justify-between flex-col"
             >
-              <div>{title}</div>
-              <div className="self-end">
+              <div className="text-lg">{title}</div>
+              <div className="self-end text-xs">
                 {dayjs(created_at).format("YY년 MM월 DD일")}
               </div>
             </Link>
