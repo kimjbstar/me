@@ -1,8 +1,8 @@
 {
-  "name": "blog",
+  "name": "about",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://kimjbstar.github.io/blog",
+  "homepage": "http://kimjbstar.github.io/about",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
