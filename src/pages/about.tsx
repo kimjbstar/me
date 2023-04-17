@@ -1,5 +1,4 @@
 import Layout from "@/components/layout"
-import Image from "next/image"
 import iconGithub from "public/icon-github.png"
 import iconMail from "public/icon-mail.png"
 
