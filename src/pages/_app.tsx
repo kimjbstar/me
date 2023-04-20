@@ -25,7 +25,6 @@ export default function App({ Component, pageProps }: AppProps) {
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
-            console.log('NEXT_PUBLIC_GA_TRACKING_ID','${process.env.NEXT_PUBLIC_GA_TRACKING_ID}')
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
