@@ -6,10 +6,26 @@ import { prefix } from "@/config/config"
 import { AppProvider } from "@/context/context"
 import Head from "next/head"
 import { GoogleAnalytics } from "@/components/google-analytics"
+import { useEffect } from "react"
+import * as gtag from "../lib/gtag"
+import { useRouter } from "next/router"
 
 const defaultfont = Roboto({ weight: "300", subsets: ["greek"] })
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter()
+  useEffect(() => {
+    const handleRouteChange = (url: any) => {
+      gtag.pageview(url)
+    }
+    router.events.on("routeChangeComplete", handleRouteChange)
+    router.events.on("hashChangeComplete", handleRouteChange)
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange)
+      router.events.off("hashChangeComplete", handleRouteChange)
+    }
+  }, [router.events])
+
   return (
     <>
       <Head>
